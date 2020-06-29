@@ -3,106 +3,91 @@
 # Tasks to do before rebooting
 before_reboot(){
 
-    echo "*** Setting up datetime..."
+    date +"%R *** Setting up datetime..."
     cp /usr/share/zoneinfo/America/Bogota /etc/localtime
-    echo "Datetime set up!"
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R Datetime set up!"
+    date +"%R *** Datetime set up!"
 
     # Update system
-    echo "*** Updating system..."
+    date +"%R *** Updating system..."
     sudo apt -y update
     sudo apt -y upgrade
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** System updated!"
 
     # Install desktop environment
-    echo "*** Installing desktop environment..."
+    date +"%R *** Installing desktop environment..."
     sudo apt -y install xfce4
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** Desktop environment installed!"
 
     # Install remote desktop server
-    echo "*** Installing remote desktop server..."
+    date +"%R *** Installing remote desktop server..."
     sudo apt -y install xrdp
     sudo systemctl enable xrdp
     echo xfce4-session >~/.xsession
     sudo service xrdp restart
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** Desktop server installed!"
 
     # Prerequisites
-    echo "*** Installing gcc g++..."
+    date +"%R *** Installing gcc g++..."
     # gcc g++
     sudo apt -y install gcc g++
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** gcc g++ installed!"
     # Utils
-    echo "*** Installing zip unzip cmake iotop keychain..."
+    date +"%R *** Installing zip unzip cmake iotop keychain..."
     sudo apt -y install zip
     sudo apt -y install unzip
     sudo apt -y install cmake
     sudo apt -y install iotop
     sudo apt -y install keychain
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** zip unzip cmake iotop keychain installed!"
     # FFMPEG
-    echo "*** Installing ffmpeg..."
+    date +"%R *** Installing ffmpeg..."
     sudo apt -y install ffmpeg
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** ffmpeg installed!"
     # Python
-    echo "*** Installing python numpy..."
+    date +"%R *** Installing python numpy..."
     sudo apt -y install python-dev python-numpy
     sudo apt -y install python3-dev python3-numpy
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** python numpy installed!"
     # GTK support for GUI features
-    echo "*** Installing libavcodec libgstreamer..."
+    date +"%R *** Installing libavcodec libgstreamer..."
     sudo apt -y install libavcodec-dev libavformat-dev libswscale-dev
     sudo apt -y install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** libavcodec libgstreamer installed!"
     # Support for gtk2 OpenCV:
-    echo "*** Installing libgtk2..."
+    date +"%R *** Installing libgtk2..."
     sudo apt -y install libgtk2.0-dev
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** Installing libgtk2 installed!"
     # Support for gtk3 OpenCV:
-    echo "*** Installing libgtk3..."
+    date +"%R *** Installing libgtk3..."
     sudo apt -y install libgtk-3-dev
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** libgtk3 installed!"
     # Optional dependencies for OpenCV
-    echo "*** Installing OpenCV dependencies..."
+    date +"%R *** Installing OpenCV dependencies..."
     sudo apt -y install libpng-dev
     sudo apt -y install libjpeg-dev
     sudo apt -y install libopenexr-dev
     sudo apt -y install libtiff-dev
     sudo apt -y install libwebp-dev
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** OpenCV dependencies installed!"
     # TBB support for OpenCV
-    echo "*** Installing TBB support for OpenCV..."
+    date +"%R *** Installing TBB support for OpenCV..."
     sudo apt -y install libtbb-dev
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** TBB support for OpenCV installed!"
     # Install pip and tk
-    echo "*** Installing pip tk..."
+    date +"%R *** Installing pip tk..."
     sudo apt -y install python-pip
     sudo apt -y install python3-pip
     sudo apt -y install python-tk
     sudo apt -y install python3-tk 
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** pip tk installed!"
     # Install easyGui
-    echo "*** Installing Easygui..."
+    date +"%R *** Installing Easygui..."
     sudo -H pip install easygui
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** Easygui installed!"
 
     # Install Nvidia Driver
-    echo "*** Installing nvidia driver..."
+    date +"%R *** Installing nvidia driver..."
     wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
     sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
     wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda-repo-ubuntu1804-10-2-local-10.2.89-440.33.01_1.0-1_amd64.deb -O $cur_dir/cuda.deb
@@ -110,111 +95,110 @@ before_reboot(){
     sudo apt-key add /var/cuda-repo-10-2-local-10.2.89-440.33.01/7fa2af80.pub
     sudo apt -y update
     sudo apt -y install cuda
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** Nvidia driver installed!"
 
-    echo "*** Testing nvidia GPU..."
+    date +"%R *** Testing nvidia GPU..."
     nvidia-smi
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** Nvidia GPU tested!"
 
-    echo "*** Downloading OpenCV..."
+    date +"%R *** Downloading OpenCV..."
     wget https://github.com/opencv/opencv/archive/2.4.13.6.zip -O $cur_dir/opencv.zip
     unzip $cur_dir/opencv.zip
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** OpenCV downoaded!"
 
-    echo "*** Compiling OpenCV..."
+    date +"%R *** Compiling OpenCV..."
     mkdir -p $cur_dir/opencv-2.4.13.6/build
     cd opencv-2.4.13.6/build
     cmake -D CMAKE_BUILD_TYPE=RELEASE -D WITH_TBB=ON -D WITH_CUDA=OFF -D WITH_OPENCL=OFF -D CMAKE_INSTALL_PREFIX=/usr/local ..
     make -j6
-    echo "*** Installing OpenCV..."
+    date +"%R *** OpenCV Compiled!"
+    date +"%R *** Installing OpenCV..."
     make install
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** OpenCV Installed!"
 
-    echo "*** Downloading sdm-yolo..."
+    date +"%R *** Downloading sdm-yolo..."
     cd $cur_dir
     git clone https://github.com/calderonf/sdm_yolo.git
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** sdm-yolo downloaded!"
 
-    echo "*** Downloading weights..."
+    date +"%R *** Downloading and unzziping weights..."
     # Download utility for downloading google drive link
     wget https://raw.githubusercontent.com/luballe/gdrive.sh/master/gdrive.sh -O $cur_dir/gdrive.sh
     # Download zip file
     curl gdrive.sh | bash -s https://drive.google.com/file/d/1TnmqD8zmfnW0Vn9hylgEY33r4lCxU1jH
     unzip weights.zip
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** weihts downloaded and unzipped!"
 
     # Export Path
-    echo "*** Exporting Path..."
+    date +"%R *** Exporting Path..."
     var='export PATH=/usr/local/cuda-10.2/bin${PATH:+:${PATH}}'
     # | grep '\$' is for not expanding variable $var
-    echo "$var" | grep '\$' >> $cur_dir/.bashrc
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R $var" | grep '\$' >> $cur_dir/.bashrc
+    date +"%R *** Path exported!"
 
 # Tasks to do after rebooting
 after_reboot(){
-    echo "*** Compiling SDM_YOLO..."
+    date +"%R *** Compiling sdm_yolo..."
     cd $cur_dir/sdm_yolo
     make -j6
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** sdm_yolo compiled!"
 
-    echo "*** Changing Ownership..."
+    date +"%R *** Changing Ownership..."
     cd $cur_dir
     chown -R administrador:administrador .wget-hsts
     chown -R administrador:administrador .xsession
     chown -R administrador:administrador sdm_yolo
     chown -R administrador:administrador weights
     chown -R administrador:administrador gdrive.sh
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** Ownership changed!"
 
-    echo "*** Cleaning up..."
+    date +"%R *** Cleaning up..."
     rm $cur_dir/cuda.deb
     rm $cur_dir/opencv.zip
     rm $cur_dir/weights.zip
     rm $cur_dir/opencv-2.4.13.6
-    echo "*** Sleeping 10 secs..."
-    sleep 10
+    date +"%R *** Clean Up!"
 }
 
+#Flag to activate debug (sleep for x secs after each task executed)
+DEBUG=1
+# Secs to sleep after execute every task 
+SLEEP_TIME=5
+# FLag to activate logging
+LOG=1
+
 #Am I running as root?
-echo "ver 0.1"
-echo "*** Checking if am I root..."
-if [ "$EUID" -ne 0 ]
-then echo "Execute as root!"
+date +"%R ver 0.1"
+date +"%R *** Checking if am I root..."
+if [ "$EUID" -ne 0 ] then 
+  date +"%R Execute as root!: "
+  date +"%R sudo ./sdm_yolo_installer.sh"
 exit
 fi
 
-echo "*** I'm root!"
+date +"%R *** I'm running as root!"
 
-echo "*** Setting up installation directory..."
+date +"%R *** Setting up installation directory..."
 cur_dir=$(pwd)
-echo "*** Current directory: "$cur_dir
+date +"%R *** Current directory: "$cur_dir
 
 
 if [ ! -f /var/run/resume-after-reboot ]; then
-    echo "running script for the first time..."
+    date +"%R running script for the first time..."
     before_reboot
     # Preparation for reboot
-    script="bash /install_sdm_yolo.sh"
+    script="bash /sdm_yolo_installer.sh"
     # add this script to bashrc so it gets triggered immediately after reboot
-    echo "$script" >> $cur_dir/.bashrc 
+    echo "$script" >> ~/.bashrc 
     # create a flag file to check if we are resuming from reboot.
     touch /var/run/resume-after-reboot
-    echo "rebooting in 10 secs..."
+    date +"%R rebooting in 10 secs..."
     sleep 10
     sudo reboot
 else
-    echo "resuming script after reboot..."
+    date +"%R resuming script after reboot..."
     # Remove the line that we added in zshrc
-    sed -i '/bash/d' $cur_dir/.bashrc 
+    sed -i '/bash/d' ~/.bashrc 
     # remove the temporary file that we created to check for reboot
     rm -f /var/run/resume-after-reboot
     after_reboot
