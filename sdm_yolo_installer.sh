@@ -97,7 +97,7 @@ before_reboot(){
   date +"%Y-%m-%d_%T *** Installing nvidia driver..."
   sudo apt-key add /var/cuda-repo-10-2-local-10.2.89-440.33.01/7fa2af80.pub
   sudo apt -y update
-  sudo apt -y install cuda
+  sudo apt -y install cuda-10.2
   date +"%Y-%m-%d_%T *** Nvidia driver installed!"
 
   date +"%Y-%m-%d_%T *** Testing nvidia GPU..."
